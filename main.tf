@@ -1,44 +1,44 @@
 resource "aws_vpc" "main" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = var.vpc_cidr
 
   tags = {
-    Name = "main"
+    Name = var.env_code
   }
 }
 
 resource "aws_subnet" "public0" {
   vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.0.0/24"
+  cidr_block = var.public_cidr[0]
 
   tags = {
-    Name = "public0"
+    Name = "{var.env_code}-public0"
   }
 }
 
 resource "aws_subnet" "public1" {
   vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.1.0/24"
+  cidr_block = var.public_cidr[1]
 
   tags = {
-    Name = "public1"
+    Name = "{var.env_code}-public1"
   }
 }
 
 resource "aws_subnet" "private0" {
   vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.2.0/24"
+  cidr_block = var.private_cidr[0]
 
   tags = {
-    Name = "private0"
+    Name = "{var.env_code}-private0"
   }
 }
 
 resource "aws_subnet" "private1" {
   vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.3.0/24"
+  cidr_block = var.private_cidr[1]
 
   tags = {
-    Name = "private1"
+    Name = "{var.env_code}-private1"
   }
 }
 
@@ -46,7 +46,7 @@ resource "aws_internet_gateway" "main" {
   vpc_id     = aws_vpc.main.id
 
   tags = {
-    Name = "main"
+    Name = var.env_code
   }
 }
 
@@ -54,7 +54,7 @@ resource "aws_eip" "nat0" {
   vpc      = true
 
   tags = {
-    Name = "nat0"
+    Name = "{var.env_code}-nat0"
   }
 }
 
@@ -62,7 +62,7 @@ resource "aws_eip" "nat1" {
   vpc      = true
 
   tags = {
-    Name = "nat1"
+    Name = "{var.env_code}-nat1"
   }
 }
 
@@ -71,7 +71,7 @@ resource "aws_nat_gateway" "main0" {
   subnet_id     = aws_subnet.public0.id
 
   tags = {
-    Name = "main0"
+    Name = "{var.env_code}-main0"
   }
 }
 
@@ -80,7 +80,7 @@ resource "aws_nat_gateway" "main1" {
   subnet_id     = aws_subnet.public1.id
 
   tags = {
-    Name = "main1"
+    Name = "{var.env_code}-main1"
   }
 }
 
@@ -93,7 +93,7 @@ resource "aws_route_table" "public" {
    }
 
    tags = {
-    Name = "public"
+    Name = "{var.env_code}-public"
   }
 }
 
@@ -106,7 +106,7 @@ resource "aws_route_table" "private0" {
    }
 
    tags = {
-    Name = "private0"
+    Name = "{var.env_code}-private0"
   }
 }
 
@@ -119,7 +119,7 @@ resource "aws_route_table" "private1" {
    }
 
    tags = {
-    Name = "private1"
+    Name = "{var.env_code}-private1"
   }
 }
 

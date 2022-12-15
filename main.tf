@@ -17,7 +17,7 @@ resource "aws_subnet" "public" {
   }
 }
 
-resource "aws_subnet" "private0" {
+resource "aws_subnet" "private" {
   count = length(var.private_cidr)
 
   vpc_id     = aws_vpc.main.id

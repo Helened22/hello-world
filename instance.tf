@@ -1,14 +1,14 @@
 resource "aws_instance" "public" {
-    ami                         = "ami-0b5eea76982371e91"
-    associate_public_ip_address = true
-    instance_type               = "t2.micro"
-    key_name                    = "main"
-    vpc_security_group_ids      = [aws_security_group.public.id]
-    subnet_id                   = aws_subnet.public[0].id
+  ami                         = "ami-0b5eea76982371e91"
+  associate_public_ip_address = true
+  instance_type               = "t2.micro"
+  key_name                    = "main"
+  vpc_security_group_ids      = [aws_security_group.public.id]
+  subnet_id                   = aws_subnet.public[0].id
 
-    tags = {
-        Name = "${var.env_code}-public"
-    }
+  tags = {
+    Name = "${var.env_code}-public"
+  }
 }
 
 resource "aws_security_group" "public" {
@@ -17,18 +17,18 @@ resource "aws_security_group" "public" {
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description      = "SSH from public"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["75.53.231.109/32"]
+    description = "SSH from public"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["75.53.231.109/32"]
   }
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
@@ -37,15 +37,15 @@ resource "aws_security_group" "public" {
 }
 
 resource "aws_instance" "private" {
-    ami                         = "ami-0b5eea76982371e91"
-    instance_type               = "t2.micro"
-    key_name                    = "main"
-    vpc_security_group_ids      = [aws_security_group.private.id]
-    subnet_id                   = aws_subnet.private[0].id
+  ami                    = "ami-0b5eea76982371e91"
+  instance_type          = "t2.micro"
+  key_name               = "main"
+  vpc_security_group_ids = [aws_security_group.private.id]
+  subnet_id              = aws_subnet.private[0].id
 
-    tags = {
-        Name = "${var.env_code}-private"
-    }
+  tags = {
+    Name = "${var.env_code}-private"
+  }
 }
 
 resource "aws_security_group" "private" {
@@ -54,18 +54,18 @@ resource "aws_security_group" "private" {
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description      = "SSH from VPC"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = [var.vpc_cidr]
+    description = "SSH from VPC"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = [var.vpc_cidr]
   }
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {

@@ -36,6 +36,7 @@ resource "aws_internet_gateway" "main" {
   }
 }
 
+
 resource "aws_eip" "nat" {
   count = length(var.public_cidr)
 

@@ -5,6 +5,13 @@ terraform {
       version = "~> 4.0"
     }
   }
+
+  backend "s3" {
+    bucket = "terr-remote-state-2023"
+    key    = "terraform.tfstate"
+    region = "us-east-1"
+    dynamodb_table = "terraform-remote-state"
+  }
 }
 
 provider "aws" {
